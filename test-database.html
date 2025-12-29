@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Test & Fix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .test-result {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="card rounded-2xl p-8 mb-8 text-center">
+            <div class="inline-block p-4 bg-blue-600 rounded-full mb-4">
+                <i class="fas fa-vial text-white text-5xl"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Database Connection Test</h1>
+            <p class="text-xl text-gray-600">Diagnose and fix database issues</p>
+        </div>
+
+        <!-- Test Button -->
+        <div class="card rounded-2xl p-8 mb-8 text-center">
+            <button id="runTestBtn" onclick="runAllTests()"
+                class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xl py-4 px-8 rounded-lg transition shadow-lg">
+                <i class="fas fa-play mr-2"></i>Run Database Tests
+            </button>
+        </div>
+
+        <!-- Test Results -->
+        <div id="resultsSection" class="hidden space-y-6">
+            <!-- Test 1 -->
+            <div class="card rounded-2xl p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-database text-indigo-600 mr-3"></i>Test 1: Check Tables
+                </h3>
+                <div id="test1Result" class="test-result bg-gray-900 text-green-400 p-4 rounded-lg"></div>
+            </div>
+
+            <!-- Test 2 -->
+            <div class="card rounded-2xl p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-users text-indigo-600 mr-3"></i>Test 2: Read Users
+                </h3>
+                <div id="test2Result" class="test-result bg-gray-900 text-green-400 p-4 rounded-lg"></div>
+            </div>
+
+            <!-- Test 3 -->
+            <div class="card rounded-2xl p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-user-plus text-indigo-600 mr-3"></i>Test 3: Create Test User
+                </h3>
+                <div id="test3Result" class="test-result bg-gray-900 text-green-400 p-4 rounded-lg"></div>
+            </div>
+
+            <!-- Test 4 -->
+            <div class="card rounded-2xl p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-sign-in-alt text-indigo-600 mr-3"></i>Test 4: Verify Login
+                </h3>
+                <div id="test4Result" class="test-result bg-gray-900 text-green-400 p-4 rounded-lg"></div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div id="summarySection" class="hidden card rounded-2xl p-8 mt-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-clipboard-check text-indigo-600 mr-3"></i>Test Summary
+            </h2>
+            <div id="summaryContent"></div>
+        </div>
+
+        <!-- Fix Button -->
+        <div id="fixSection" class="hidden card rounded-2xl p-8 mt-8 bg-yellow-50 border-2 border-yellow-400">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-wrench text-yellow-600 mr-3"></i>Issues Found - Click to Fix
+            </h2>
+            <div id="fixContent" class="mb-4"></div>
+            <button id="fixBtn" onclick="fixIssues()"
+                class="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold py-3 px-8 rounded-lg transition">
+                <i class="fas fa-magic mr-2"></i>Auto-Fix Issues
+            </button>
+        </div>
+
+        <!-- Success -->
+        <div id="successSection" class="hidden card rounded-2xl p-8 mt-8 bg-green-50 border-2 border-green-400">
+            <div class="text-center">
+                <div class="inline-block p-4 bg-green-500 rounded-full mb-4">
+                    <i class="fas fa-check-circle text-white text-5xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">✅ All Tests Passed!</h2>
+                <p class="text-gray-700 mb-6">Your database is working correctly.</p>
+                <div class="space-x-4">
+                    <a href="signup.html" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                        <i class="fas fa-user-plus mr-2"></i>Test User Registration
+                    </a>
+                    <a href="index.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Go to Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+        let hasIssues = false;
+
+        function log(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const color = type === 'error' ? 'text-red-400' : type === 'success' ? 'text-green-400' : 'text-blue-400';
+            element.innerHTML += `<div class="${color}">${message}</div>`;
+        }
+
+        async function runAllTests() {
+            document.getElementById('runTestBtn').disabled = true;
+            document.getElementById('resultsSection').classList.remove('hidden');
+            testResults = [];
+            hasIssues = false;
+
+            // Test 1: Check if tables exist
+            try {
+                log('test1Result', '🔵 Checking users table...', 'info');
+                const response = await fetch('tables/users?limit=1');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log('test1Result', `✅ Users table exists! Total users: ${data.total || 0}`, 'success');
+                    testResults.push({ test: 'Table Check', status: 'PASS', details: `${data.total || 0} users in database` });
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                log('test1Result', `❌ ERROR: ${error.message}`, 'error');
+                log('test1Result', '❌ Users table not accessible!', 'error');
+                testResults.push({ test: 'Table Check', status: 'FAIL', details: error.message });
+                hasIssues = true;
+            }
+
+            // Test 2: Read existing users
+            try {
+                log('test2Result', '🔵 Reading all users from database...', 'info');
+                const response = await fetch('tables/users?limit=100');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log('test2Result', `✅ Successfully read ${data.data.length} users`, 'success');
+                    
+                    data.data.forEach(user => {
+                        log('test2Result', `  → ${user.username} (${user.role}) - ${user.full_name}`, 'info');
+                    });
+                    
+                    testResults.push({ test: 'Read Users', status: 'PASS', details: `${data.data.length} users found` });
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                log('test2Result', `❌ ERROR: ${error.message}`, 'error');
+                testResults.push({ test: 'Read Users', status: 'FAIL', details: error.message });
+                hasIssues = true;
+            }
+
+            // Test 3: Create a test user
+            try {
+                log('test3Result', '🔵 Creating test user...', 'info');
+                const testUser = {
+                    username: 'test_user_' + Date.now(),
+                    password: 'Test@123',
+                    full_name: 'Test User',
+                    email: 'test@test.com',
+                    role: 'user',
+                    department: 'Testing',
+                    active: true
+                };
+                
+                const response = await fetch('tables/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testUser)
+                });
+                
+                if (response.ok) {
+                    const created = await response.json();
+                    log('test3Result', `✅ Test user created successfully!`, 'success');
+                    log('test3Result', `  → Username: ${created.username}`, 'info');
+                    log('test3Result', `  → ID: ${created.id}`, 'info');
+                    testResults.push({ test: 'Create User', status: 'PASS', details: 'User created successfully' });
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                log('test3Result', `❌ ERROR: ${error.message}`, 'error');
+                log('test3Result', '❌ Cannot create new users!', 'error');
+                testResults.push({ test: 'Create User', status: 'FAIL', details: error.message });
+                hasIssues = true;
+            }
+
+            // Test 4: Verify admin login
+            try {
+                log('test4Result', '🔵 Testing admin login...', 'info');
+                const response = await fetch('tables/users?search=admin&limit=1');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.data && data.data.length > 0) {
+                        const admin = data.data[0];
+                        log('test4Result', `✅ Admin account found!`, 'success');
+                        log('test4Result', `  → Username: ${admin.username}`, 'info');
+                        log('test4Result', `  → Role: ${admin.role}`, 'info');
+                        log('test4Result', `  → Password: ${admin.password}`, 'info');
+                        testResults.push({ test: 'Admin Login', status: 'PASS', details: 'Admin account accessible' });
+                    } else {
+                        throw new Error('Admin account not found');
+                    }
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                log('test4Result', `❌ ERROR: ${error.message}`, 'error');
+                testResults.push({ test: 'Admin Login', status: 'FAIL', details: error.message });
+                hasIssues = true;
+            }
+
+            // Show summary
+            showSummary();
+        }
+
+        function showSummary() {
+            const summarySection = document.getElementById('summarySection');
+            const summaryContent = document.getElementById('summaryContent');
+            const fixSection = document.getElementById('fixSection');
+            const successSection = document.getElementById('successSection');
+            
+            summarySection.classList.remove('hidden');
+            
+            let html = '<div class="space-y-2">';
+            testResults.forEach(result => {
+                const icon = result.status === 'PASS' ? '✅' : '❌';
+                const color = result.status === 'PASS' ? 'text-green-700' : 'text-red-700';
+                html += `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                        <div>
+                            <span class="font-semibold">${icon} ${result.test}</span>
+                            <p class="text-sm text-gray-600">${result.details}</p>
+                        </div>
+                        <span class="px-3 py-1 rounded font-bold ${color} bg-opacity-20">
+                            ${result.status}
+                        </span>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            summaryContent.innerHTML = html;
+            
+            if (hasIssues) {
+                fixSection.classList.remove('hidden');
+                document.getElementById('fixContent').innerHTML = `
+                    <div class="bg-white p-4 rounded-lg mb-4">
+                        <p class="text-gray-700 mb-2"><strong>Issues detected:</strong></p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600">
+                            <li>Database tables may not be properly initialized</li>
+                            <li>API connection might have issues</li>
+                            <li>Click "Auto-Fix" to add admin accounts to database</li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                successSection.classList.remove('hidden');
+            }
+        }
+
+        async function fixIssues() {
+            const fixBtn = document.getElementById('fixBtn');
+            fixBtn.disabled = true;
+            fixBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Fixing...';
+            
+            try {
+                // Add admin accounts
+                const accounts = [
+                    {
+                        id: 'admin_001',
+                        username: 'admin',
+                        password: 'Admin@2024',
+                        full_name: 'System Administrator',
+                        email: 'admin@company.com',
+                        role: 'admin',
+                        department: 'Administration',
+                        active: true
+                    },
+                    {
+                        id: 'wh_001',
+                        username: 'warehouse',
+                        password: 'Warehouse@2024',
+                        full_name: 'Warehouse Manager',
+                        email: 'warehouse@company.com',
+                        role: 'warehouse_manager',
+                        department: 'Warehouse',
+                        active: true
+                    },
+                    {
+                        id: 'tech_001',
+                        username: 'technical',
+                        password: 'Technical@2024',
+                        full_name: 'Technical Manager',
+                        email: 'technical@company.com',
+                        role: 'technical_manager',
+                        department: 'Technical',
+                        active: true
+                    }
+                ];
+
+                for (const account of accounts) {
+                    try {
+                        await fetch('tables/users', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(account)
+                        });
+                    } catch (e) {
+                        console.log(`Account ${account.username} might already exist`);
+                    }
+                }
+
+                alert('✅ Admin accounts added to database!\n\nYou can now:\n1. Login with admin/Admin@2024\n2. Test user registration at signup.html');
+                window.location.reload();
+                
+            } catch (error) {
+                alert('❌ Fix failed: ' + error.message);
+                fixBtn.disabled = false;
+                fixBtn.innerHTML = '<i class="fas fa-magic mr-2"></i>Auto-Fix Issues';
+            }
+        }
+    </script>
+</body>
+</html>

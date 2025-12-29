@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Stock Management System - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .login-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="login-card rounded-2xl p-8 w-full max-w-md">
+        <div class="text-center mb-8">
+            <div class="inline-block p-4 bg-indigo-600 rounded-full mb-4">
+                <i class="fas fa-warehouse text-white text-4xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Warehouse System</h1>
+            <p class="text-gray-600">Multi-User Stock Management</p>
+        </div>
+
+        <form id="loginForm" class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-user mr-2"></i>Username
+                </label>
+                <input type="text" id="username" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    placeholder="Enter your username">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-lock mr-2"></i>Password
+                </label>
+                <input type="password" id="password" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    placeholder="Enter your password">
+            </div>
+
+            <div id="errorMessage" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                <span id="errorText"></span>
+            </div>
+
+            <button type="submit" id="loginBtn"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center">
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                <span id="loginBtnText">Sign In</span>
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">Don't have an account?</p>
+            <a href="signup.html" class="text-indigo-600 hover:text-indigo-800 font-semibold">
+                <i class="fas fa-user-plus mr-1"></i>Create New Account
+            </a>
+        </div>
+
+        <div class="mt-6 text-center text-xs text-gray-500">
+            <p><i class="fas fa-info-circle mr-1"></i>Multi-user warehouse management system</p>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginBtnText = document.getElementById('loginBtnText');
+            
+            // Hide previous errors
+            errorDiv.classList.add('hidden');
+            
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtnText.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Signing in...';
+            
+            try {
+                // Authenticate user
+                const user = await authenticateUser(username, password);
+                
+                if (user) {
+                    // Store session
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    
+                    // Redirect based on role
+                    const redirectMap = {
+                        'admin': 'admin-dashboard.html',
+                        'warehouse_manager': 'warehouse-dashboard.html',
+                        'technical_manager': 'technical-dashboard.html',
+                        'user': 'user-dashboard.html'
+                    };
+                    
+                    const redirectUrl = redirectMap[user.role] || 'user-dashboard.html';
+                    
+                    // Show success
+                    loginBtnText.textContent = 'Success! Redirecting...';
+                    loginBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                    loginBtn.classList.add('bg-green-600');
+                    
+                    // Redirect after short delay
+                    setTimeout(() => {
+                        window.location.href = redirectUrl;
+                    }, 500);
+                } else {
+                    throw new Error('Invalid username or password');
+                }
+            } catch (error) {
+                errorText.textContent = error.message;
+                errorDiv.classList.remove('hidden');
+                
+                // Reset button
+                loginBtn.disabled = false;
+                loginBtnText.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i>Sign In';
+            }
+        });
+    </script>
+</body>
+</html>

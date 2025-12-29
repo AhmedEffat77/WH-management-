@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Warehouse System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .signup-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="signup-card rounded-2xl p-8 w-full max-w-md">
+        <div class="text-center mb-8">
+            <div class="inline-block p-4 bg-indigo-600 rounded-full mb-4">
+                <i class="fas fa-user-plus text-white text-4xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Create Account</h1>
+            <p class="text-gray-600">Join the Warehouse Management System</p>
+        </div>
+
+        <form id="signupForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-user mr-2"></i>Full Name
+                </label>
+                <input type="text" id="fullName" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    placeholder="Enter your full name">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-envelope mr-2"></i>Email
+                </label>
+                <input type="email" id="email" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    placeholder="your.email@company.com">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-id-badge mr-2"></i>Username
+                </label>
+                <input type="text" id="username" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    placeholder="Choose a username">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-building mr-2"></i>Department
+                </label>
+                <select id="department" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                    <option value="">Select your department</option>
+                    <option value="General">General</option>
+                    <option value="Painting">Painting</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Cosmetic">Cosmetic</option>
+                    <option value="LCD">LCD</option>
+                    <option value="Customes">Customes</option>
+                    <option value="QC">QC</option>
+                    <option value="IT">IT</option>
+                    <option value="Masking">Masking</option>
+                    <option value="PD Tech">PD Tech</option>
+                    <option value="WH Tech">WH Tech</option>
+                    <option value="Security">Security</option>
+                    <option value="AW">AW</option>
+                    <option value="Administration">Administration</option>
+                    <option value="Technical">Technical</option>
+                    <option value="Operations">Operations</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-lock mr-2"></i>Password
+                </label>
+                <input type="password" id="password" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    placeholder="Create a password">
+                <p class="text-xs text-gray-500 mt-1">At least 6 characters</p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-lock mr-2"></i>Confirm Password
+                </label>
+                <input type="password" id="confirmPassword" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    placeholder="Confirm your password">
+            </div>
+
+            <div id="errorMessage" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                <span id="errorText"></span>
+            </div>
+
+            <button type="submit" id="signupBtn"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200">
+                <i class="fas fa-user-plus mr-2"></i>
+                <span id="signupBtnText">Create Account</span>
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">
+                Already have an account?
+                <a href="index.html" class="text-indigo-600 hover:text-indigo-800 font-semibold">Sign In</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const department = document.getElementById('department').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const signupBtn = document.getElementById('signupBtn');
+            const signupBtnText = document.getElementById('signupBtnText');
+            
+            // Hide previous errors
+            errorDiv.classList.add('hidden');
+            
+            // Validation
+            if (password.length < 6) {
+                errorText.textContent = 'Password must be at least 6 characters';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                errorText.textContent = 'Passwords do not match';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+            
+            // Show loading state
+            signupBtn.disabled = true;
+            signupBtnText.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating account...';
+            
+            try {
+                // Check if username already exists
+                const existingUsers = await apiGet('users', { search: username, limit: 1 });
+                if (existingUsers.data && existingUsers.data.length > 0) {
+                    throw new Error('Username already taken');
+                }
+                
+                // Create new user
+                const newUser = {
+                    username: username,
+                    password: password, // In production, this should be hashed on the server
+                    full_name: fullName,
+                    email: email,
+                    role: 'user', // Default role
+                    department: department,
+                    active: true
+                };
+                
+                await apiCreate('users', newUser);
+                
+                // Show success
+                signupBtnText.textContent = 'Success! Redirecting...';
+                signupBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                signupBtn.classList.add('bg-green-600');
+                
+                // Redirect to login
+                setTimeout(() => {
+                    window.location.href = 'index.html?registered=true';
+                }, 1000);
+                
+            } catch (error) {
+                errorText.textContent = error.message || 'Failed to create account. Please try again.';
+                errorDiv.classList.remove('hidden');
+                
+                // Reset button
+                signupBtn.disabled = false;
+                signupBtnText.innerHTML = '<i class="fas fa-user-plus mr-2"></i>Create Account';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Setup - Warehouse Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .setup-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="setup-card rounded-2xl p-8 mb-8 text-center">
+            <div class="inline-block p-4 bg-indigo-600 rounded-full mb-4">
+                <i class="fas fa-cog text-white text-5xl"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">System Setup</h1>
+            <p class="text-xl text-gray-600">Initialize your Warehouse Management System</p>
+        </div>
+
+        <!-- Instructions -->
+        <div class="setup-card rounded-2xl p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-info-circle text-indigo-600 mr-3"></i>Setup Instructions
+            </h2>
+            <div class="space-y-3 text-gray-700">
+                <p><strong>This is a ONE-TIME setup</strong> to create your initial admin accounts.</p>
+                <p>You need to create:</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong>1 Admin Account</strong> - Full system control</li>
+                    <li><strong>1 Warehouse Manager</strong> - Stock and approval management</li>
+                    <li><strong>1 Technical Manager</strong> - Reports and analytics</li>
+                </ul>
+                <p class="mt-4 bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded">
+                    <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
+                    <strong>Important:</strong> Save these credentials securely! You'll need them to access the system.
+                </p>
+            </div>
+        </div>
+
+        <!-- Setup Forms -->
+        <form id="setupForm" class="space-y-6">
+            <!-- Admin Account -->
+            <div class="setup-card rounded-2xl p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-user-shield text-purple-600 text-2xl mr-3"></i>
+                    Admin Account
+                </h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" id="admin_name" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                            placeholder="Administrator Name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="admin_email" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                            placeholder="admin@company.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                        <input type="text" id="admin_username" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                            placeholder="admin">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" id="admin_password" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                            placeholder="Secure password">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warehouse Manager Account -->
+            <div class="setup-card rounded-2xl p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-user-cog text-blue-600 text-2xl mr-3"></i>
+                    Warehouse Manager Account
+                </h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" id="wh_name" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                            placeholder="Warehouse Manager Name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="wh_email" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                            placeholder="warehouse@company.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                        <input type="text" id="wh_username" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                            placeholder="warehouse_mgr">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" id="wh_password" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                            placeholder="Secure password">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Manager Account -->
+            <div class="setup-card rounded-2xl p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-user-tie text-green-600 text-2xl mr-3"></i>
+                    Technical Manager Account
+                </h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" id="tech_name" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                            placeholder="Technical Manager Name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="tech_email" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                            placeholder="technical@company.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                        <input type="text" id="tech_username" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                            placeholder="technical_mgr">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" id="tech_password" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                            placeholder="Secure password">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="setup-card rounded-2xl p-8">
+                <div id="errorMessage" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <span id="errorText"></span>
+                </div>
+
+                <button type="submit" id="setupBtn"
+                    class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold text-lg py-4 rounded-lg transition duration-200">
+                    <i class="fas fa-rocket mr-2"></i>
+                    <span id="setupBtnText">Initialize System</span>
+                </button>
+
+                <p class="text-sm text-gray-600 text-center mt-4">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    This will create the database tables and initial accounts
+                </p>
+            </div>
+        </form>
+
+        <!-- Success Message (Hidden initially) -->
+        <div id="successCard" class="hidden setup-card rounded-2xl p-8">
+            <div class="text-center">
+                <div class="inline-block p-4 bg-green-500 rounded-full mb-4">
+                    <i class="fas fa-check-circle text-white text-5xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Setup Complete!</h2>
+                <p class="text-gray-600 mb-6">Your Warehouse Management System is ready to use.</p>
+
+                <div class="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-6 mb-6">
+                    <h3 class="font-bold text-gray-800 mb-3">📋 Save These Credentials:</h3>
+                    <div id="credentialsList" class="text-left space-y-2"></div>
+                </div>
+
+                <a href="index.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Go to Login
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.getElementById('setupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const setupBtn = document.getElementById('setupBtn');
+            const setupBtnText = document.getElementById('setupBtnText');
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            
+            errorDiv.classList.add('hidden');
+            
+            // Show loading
+            setupBtn.disabled = true;
+            setupBtnText.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating accounts...';
+            
+            try {
+                // Prepare accounts data
+                const accounts = [
+                    {
+                        username: document.getElementById('admin_username').value.trim(),
+                        password: document.getElementById('admin_password').value,
+                        full_name: document.getElementById('admin_name').value.trim(),
+                        email: document.getElementById('admin_email').value.trim(),
+                        role: 'admin',
+                        department: 'Administration',
+                        active: true
+                    },
+                    {
+                        username: document.getElementById('wh_username').value.trim(),
+                        password: document.getElementById('wh_password').value,
+                        full_name: document.getElementById('wh_name').value.trim(),
+                        email: document.getElementById('wh_email').value.trim(),
+                        role: 'warehouse_manager',
+                        department: 'Warehouse',
+                        active: true
+                    },
+                    {
+                        username: document.getElementById('tech_username').value.trim(),
+                        password: document.getElementById('tech_password').value,
+                        full_name: document.getElementById('tech_name').value.trim(),
+                        email: document.getElementById('tech_email').value.trim(),
+                        role: 'technical_manager',
+                        department: 'Technical',
+                        active: true
+                    }
+                ];
+                
+                // Create all accounts
+                for (const account of accounts) {
+                    await apiCreate('users', account);
+                }
+                
+                // Store credentials for display
+                const credentials = accounts.map(acc => ({
+                    role: acc.role,
+                    username: acc.username,
+                    password: acc.password
+                }));
+                
+                // Show success
+                document.getElementById('setupForm').style.display = 'none';
+                const successCard = document.getElementById('successCard');
+                successCard.classList.remove('hidden');
+                
+                // Display credentials
+                const credList = document.getElementById('credentialsList');
+                credList.innerHTML = credentials.map(cred => `
+                    <div class="bg-white p-3 rounded border-l-4 ${
+                        cred.role === 'admin' ? 'border-purple-500' : 
+                        cred.role === 'warehouse_manager' ? 'border-blue-500' : 
+                        'border-green-500'
+                    }">
+                        <p class="font-semibold text-gray-800">${cred.role.replace('_', ' ').toUpperCase()}</p>
+                        <p class="text-sm text-gray-600">Username: <code class="bg-gray-100 px-2 py-1 rounded">${cred.username}</code></p>
+                        <p class="text-sm text-gray-600">Password: <code class="bg-gray-100 px-2 py-1 rounded">${cred.password}</code></p>
+                    </div>
+                `).join('');
+                
+                // Mark setup as complete
+                localStorage.setItem('setup_complete', 'true');
+                
+            } catch (error) {
+                console.error('Setup error:', error);
+                errorText.textContent = error.message || 'Setup failed. Please try again.';
+                errorDiv.classList.remove('hidden');
+                
+                setupBtn.disabled = false;
+                setupBtnText.innerHTML = '<i class="fas fa-rocket mr-2"></i>Initialize System';
+            }
+        });
+
+        // Check if setup already complete
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const users = await apiGet('users', { limit: 1 });
+                if (users.data && users.data.length > 0) {
+                    // Setup already done
+                    if (confirm('System is already set up. Go to login page?')) {
+                        window.location.href = 'index.html';
+                    }
+                }
+            } catch (error) {
+                // Setup not done yet, continue
+                console.log('Ready for initial setup');
+            }
+        });
+    </script>
+</body>
+</html>

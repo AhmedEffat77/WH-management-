@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netlify Deployment Guide - Step by Step</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .guide-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .screenshot-box {
+            border: 3px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 10px;
+            background: #f9fafb;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-left: 4px solid #ef4444;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-left: 4px solid #10b981;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header -->
+        <div class="guide-card rounded-2xl p-8 mb-8 text-center">
+            <div class="inline-block p-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mb-4">
+                <i class="fas fa-rocket text-white text-5xl"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Netlify Deployment Guide</h1>
+            <p class="text-xl text-gray-600 mb-4">Complete Step-by-Step Instructions with Screenshots</p>
+            <div class="inline-flex items-center space-x-6 text-sm">
+                <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-semibold">
+                    <i class="fas fa-dollar-sign mr-2"></i>$0 Cost
+                </span>
+                <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold">
+                    <i class="fas fa-clock mr-2"></i>5-10 Minutes
+                </span>
+                <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-semibold">
+                    <i class="fas fa-star mr-2"></i>Easiest Method
+                </span>
+            </div>
+        </div>
+
+        <!-- What You'll Need -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-list-check text-indigo-600 mr-3"></i>What You'll Need
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Email Address</h4>
+                        <p class="text-sm text-gray-600">For creating free Netlify account</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Project Files</h4>
+                        <p class="text-sm text-gray-600">All 11 files downloaded in correct folder structure</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Web Browser</h4>
+                        <p class="text-sm text-gray-600">Chrome, Firefox, Safari, or Edge</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Internet Connection</h4>
+                        <p class="text-sm text-gray-600">Stable connection for uploading files</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 1: Prepare Files -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <div class="flex items-start space-x-4 mb-6">
+                <div class="step-number">1</div>
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Prepare Your Files</h2>
+                    <p class="text-gray-600">Make sure all files are downloaded and organized correctly</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 ml-16">
+                <div class="tip-box p-4 rounded-lg">
+                    <h4 class="font-bold text-gray-800 mb-2">
+                        <i class="fas fa-lightbulb text-yellow-600 mr-2"></i>Before You Start
+                    </h4>
+                    <p class="text-sm text-gray-700">Verify that you have ALL files in the correct structure on your computer.</p>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-800 mb-3">Required Folder Structure:</h4>
+                    <pre class="text-sm font-mono text-gray-700 bg-white p-4 rounded border overflow-x-auto">warehouse-system/          ← Main folder (you can name it anything)
+├── index.html
+├── admin-dashboard.html
+├── warehouse-dashboard.html
+├── technical-dashboard.html
+├── user-dashboard.html
+├── start-here.html
+├── documentation.html
+└── js/                    ← JavaScript subfolder (MUST be named "js")
+    ├── auth.js
+    ├── user-dashboard.js
+    ├── warehouse-dashboard.js
+    └── technical-dashboard.js</pre>
+                </div>
+
+                <div class="warning-box p-4 rounded-lg">
+                    <h4 class="font-bold text-gray-800 mb-2">
+                        <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>Important!
+                    </h4>
+                    <ul class="text-sm text-gray-700 space-y-1 ml-4">
+                        <li>• The <code class="bg-white px-2 py-1 rounded">js/</code> folder MUST exist and be named exactly "js"</li>
+                        <li>• All JavaScript files MUST be inside the js/ folder</li>
+                        <li>• HTML files MUST be in the main folder (not in subfolders)</li>
+                        <li>• File names are case-sensitive on some systems</li>
+                    </ul>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                    <h4 class="font-semibold text-blue-900 mb-2">Quick Verification:</h4>
+                    <ol class="text-sm text-blue-800 space-y-1 list-decimal list-inside">
+                        <li>Open your main folder (warehouse-system)</li>
+                        <li>You should see 7 HTML files directly in this folder</li>
+                        <li>You should see 1 subfolder named "js"</li>
+                        <li>Inside js/ folder, you should see 4 JavaScript files</li>
+                        <li>Double-click index.html - it should open in browser and show login page</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Go to Netlify -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <div class="flex items-start space-x-4 mb-6">
+                <div class="step-number">2</div>
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Go to Netlify Website</h2>
+                    <p class="text-gray-600">Open your web browser and navigate to Netlify</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 ml-16">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-gray-800 mb-3">Action Required:</h4>
+                    <p class="text-gray-700 mb-4">Open this URL in your browser:</p>
+                    <a href="https://www.netlify.com" target="_blank" 
+                       class="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-xl px-8 py-4 rounded-lg hover:from-cyan-600 hover:to-blue-600 transition">
+                        <i class="fas fa-external-link-alt mr-2"></i>https://www.netlify.com
+                    </a>
+                </div>
+
+                <div class="screenshot-box">
+                    <div class="text-center">
+                        <i class="fas fa-image text-gray-300 text-6xl mb-4"></i>
+                        <p class="text-gray-500 font-semibold">Netlify Homepage</p>
+                        <p class="text-sm text-gray-400 mt-2">You'll see "Sign up" button in the top right</p>
+                    </div>
+                </div>
+
+                <div class="tip-box p-4 rounded-lg">
+                    <p class="text-sm text-gray-700">
+                        <i class="fas fa-lightbulb text-yellow-600 mr-2"></i>
+                        <strong>Tip:</strong> Bookmark this page so you can easily access Netlify in the future to manage your site.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Create Account -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <div class="flex items-start space-x-4 mb-6">
+                <div class="step-number">3</div>
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Create Free Account</h2>
+                    <p class="text-gray-600">Sign up for a completely free account (no credit card required)</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 ml-16">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-gray-800 mb-4">Choose Your Sign-Up Method:</h4>
+                    
+                    <div class="grid md:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-white border-2 border-gray-200 rounded-lg p-4 text-center hover:border-blue-400 transition">
+                            <i class="fab fa-github text-gray-700 text-3xl mb-2"></i>
+                            <h5 class="font-semibold text-gray-800">GitHub</h5>
+                            <p class="text-xs text-gray-600 mt-1">Recommended</p>
+                        </div>
+                        <div class="bg-white border-2 border-gray-200 rounded-lg p-4 text-center hover:border-blue-400 transition">
+                            <i class="fab fa-google text-red-500 text-3xl mb-2"></i>
+                            <h5 class="font-semibold text-gray-800">Google</h5>
+                            <p class="text-xs text-gray-600 mt-1">Quick & Easy</p>
+                        </div>
+                        <div class="bg-white border-2 border-gray-200 rounded-lg p-4 text-center hover:border-blue-400 transition">
+                            <i class="fas fa-envelope text-blue-500 text-3xl mb-2"></i>
+                            <h5 class="font-semibold text-gray-800">Email</h5>
+                            <p class="text-xs text-gray-600 mt-1">Traditional</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h5 class="font-semibold text-gray-800">Detailed Instructions:</h5>
+                        
+                        <div class="bg-blue-50 p-3 rounded">
+                            <p class="text-sm text-blue-900 font-semibold mb-1">Option 1: Sign up with GitHub (Recommended)</p>
+                            <ol class="text-sm text-blue-800 space-y-1 list-decimal list-inside ml-2">
+                                <li>Click "Sign up" button</li>
+                                <li>Click "GitHub" button</li>
+                                <li>Log in to GitHub (or create GitHub account if you don't have one)</li>
+                                <li>Click "Authorize Netlify"</li>
+                                <li>Done! You're logged in to Netlify</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-green-50 p-3 rounded">
+                            <p class="text-sm text-green-900 font-semibold mb-1">Option 2: Sign up with Google</p>
+                            <ol class="text-sm text-green-800 space-y-1 list-decimal list-inside ml-2">
+                                <li>Click "Sign up" button</li>
+                                <li>Click "Google" button</li>
+                                <li>Select your Google account</li>
+                                <li>Click "Allow"</li>
+                                <li>Done! You're logged in to Netlify</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-purple-50 p-3 rounded">
+                            <p class="text-sm text-purple-900 font-semibold mb-1">Option 3: Sign up with Email</p>
+                            <ol class="text-sm text-purple-800 space-y-1 list-decimal list-inside ml-2">
+                                <li>Click "Sign up" button</li>
+                                <li>Click "Email" button</li>
+                                <li>Enter your email address</li>
+                                <li>Create a password</li>
+                                <li>Click "Sign up"</li>
+                                <li>Check your email for verification link</li>
+                                <li>Click verification link in email</li>
+                                <li>Done! You're logged in to Netlify</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box p-4 rounded-lg">
+                    <p class="text-sm text-gray-700">
+                        <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                        <strong>100% Free Forever:</strong> Netlify's free tier includes everything you need. No credit card required. No hidden fees.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Navigate to Deploy -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <div class="flex items-start space-x-4 mb-6">
+                <div class="step-number">4</div>
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Start New Deployment</h2>
+                    <p class="text-gray-600">After login, you'll see your Netlify dashboard</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 ml-16">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-gray-800 mb-3">What You'll See:</h4>
+                    <p class="text-gray-700 mb-4">After logging in, you'll be on your Netlify dashboard (Team Overview page).</p>
+                    
+                    <div class="screenshot-box mb-4">
+                        <div class="text-center">
+                            <i class="fas fa-desktop text-gray-300 text-6xl mb-4"></i>
+                            <p class="text-gray-500 font-semibold">Netlify Dashboard</p>
+                            <p class="text-sm text-gray-400 mt-2">Look for "Add new site" or "Deploy manually" button</p>
+                        </div>
+                    </div>
+
+                    <h4 class="font-semibold text-gray-800 mb-3">Two Ways to Deploy:</h4>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-blue-50 border-2 border-blue-300 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-900 mb-2">
+                                <i class="fas fa-star text-yellow-500 mr-2"></i>Method 1: Drag & Drop (EASIEST)
+                            </h5>
+                            <ol class="text-sm text-blue-800 space-y-1 list-decimal list-inside ml-2">
+                                <li>Look for the "Deploy manually" section on the dashboard</li>
+                                <li>You'll see a large area that says "Drag and drop your site output folder here"</li>
+                                <li>This is where you'll drag your warehouse-system folder</li>
+                                <li><strong>Skip to Step 5 below</strong></li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-purple-50 border-2 border-purple-300 p-4 rounded-lg">
+                            <h5 class="font-bold text-purple-900 mb-2">Method 2: Add New Site Button</h5>
+                            <ol class="text-sm text-purple-800 space-y-1 list-decimal list-inside ml-2">
+                                <li>Click the "Add new site" button (usually top right)</li>
+                                <li>Select "Deploy manually" from the dropdown</li>
+                                <li>You'll see the drag & drop area</li>
+                                <li><strong>Continue to Step 5 below</strong></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box p-4 rounded-lg">
+                    <p class="text-sm text-gray-700">
+                        <i class="fas fa-lightbulb text-yellow-600 mr-2"></i>
+                        <strong>Can't find the button?</strong> Look for: "Sites" in the menu, then "Add new site", or scroll down to see the drag & drop area.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Deploy Your Site -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <div class="flex items-start space-x-4 mb-6">
+                <div class="step-number">5</div>
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Drag & Drop Your Files</h2>
+                    <p class="text-gray-600">Upload your warehouse-system folder</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 ml-16">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-gray-800 mb-4">Deployment Steps:</h4>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">1</div>
+                            <div>
+                                <h5 class="font-semibold text-gray-800">Locate Your Folder</h5>
+                                <p class="text-sm text-gray-600">Open File Explorer (Windows) or Finder (Mac) and navigate to your warehouse-system folder</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">2</div>
+                            <div>
+                                <h5 class="font-semibold text-gray-800">Drag the Entire Folder</h5>
+                                <p class="text-sm text-gray-600 mb-2">Click and hold on your warehouse-system folder, then drag it to the Netlify deployment area</p>
+                                <div class="warning-box p-3 rounded mt-2">
+                                    <p class="text-sm text-gray-700">
+                                        <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>
+                                        <strong>Important:</strong> Drag the ENTIRE folder, not individual files. The folder should contain all HTML files and the js/ subfolder.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">3</div>
+                            <div>
+                                <h5 class="font-semibold text-gray-800">Drop the Folder</h5>
+                                <p class="text-sm text-gray-600">Release your mouse button when you see the drop area highlight</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">4</div>
+                            <div>
+                                <h5 class="font-semibold text-gray-800">Wait for Upload</h5>
+                                <p class="text-sm text-gray-600">You'll see a progress bar. Netlify is uploading your files (usually takes 10-30 seconds)</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">✓</div>
+                            <div>
+                                <h5 class="font-semibold text-gray-800">Deployment Complete!</h5>
+                                <p class="text-sm text-gray-600">You'll see "Site is live" or similar success message</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="screenshot-box">
+                    <div class="text-center">
+                        <i class="fas fa-cloud-upload-alt text-gray-300 text-6xl mb-4"></i>
+                        <p class="text-gray-500 font-semibold">Drag & Drop Area</p>
+                        <p class="text-sm text-gray-400 mt-2">Large dashed box that says "Drop your site folder here"</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                    <h5 class="font-semibold text-blue-900 mb-2">Alternative: Browse to Upload</h5>
+                    <p class="text-sm text-blue-800">If drag & drop doesn't work:</p>
+                    <ol class="text-sm text-blue-800 mt-2 space-y-1 list-decimal list-inside ml-2">
+                        <li>Look for "browse to upload" link in the drop area</li>
+                        <li>Click it to open file browser</li>
+                        <li>Navigate to and select your warehouse-system folder</li>
+                        <li>Click "Open" or "Select Folder"</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6: Get Your URL -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <div class="flex items-start space-x-4 mb-6">
+                <div class="step-number">6</div>
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Get Your Live URL</h2>
+                    <p class="text-gray-600">Netlify will give you a free URL for your site</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 ml-16">
+                <div class="success-box p-6 rounded-lg">
+                    <h4 class="font-bold text-gray-800 mb-3">
+                        <i class="fas fa-party-horn text-green-600 mr-2"></i>Congratulations! Your Site is Live!
+                    </h4>
+                    <p class="text-gray-700 mb-3">After deployment completes, you'll see your site details.</p>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-gray-800 mb-3">Your URL Format:</h4>
+                    <div class="bg-white border-2 border-gray-300 rounded-lg p-4 text-center font-mono text-lg">
+                        <span class="text-indigo-600 font-bold">random-name-123</span>.netlify.app
+                    </div>
+                    <p class="text-sm text-gray-600 mt-3">Example: <code class="bg-gray-200 px-2 py-1 rounded">peaceful-cupcake-8f2a1b.netlify.app</code></p>
+                    <p class="text-sm text-gray-600 mt-2">Netlify automatically generates a random name for your site.</p>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-gray-800 mb-3">What to Do Next:</h4>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                            <div>
+                                <h5 class="font-semibold text-gray-800">Copy Your URL</h5>
+                                <p class="text-sm text-gray-600">Click the URL or the copy button next to it</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                            <div>
+                                <h5 class="font-semibold text-gray-800">Test Your Site</h5>
+                                <p class="text-sm text-gray-600">Click the URL to open your live site in a new tab</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                            <div>
+                                <h5 class="font-semibold text-gray-800">Login to Test</h5>
+                                <p class="text-sm text-gray-600">Use: <code class="bg-gray-200 px-2 py-1 rounded">admin</code> / <code class="bg-gray-200 px-2 py-1 rounded">admin123</code></p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                            <div>
+                                <h5 class="font-semibold text-gray-800">Share with Your Team</h5>
+                                <p class="text-sm text-gray-600">Send the URL to everyone who needs access</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="screenshot-box">
+                    <div class="text-center">
+                        <i class="fas fa-link text-gray-300 text-6xl mb-4"></i>
+                        <p class="text-gray-500 font-semibold">Your Site URL</p>
+                        <p class="text-sm text-gray-400 mt-2">Large, prominent link at the top of your site page</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 7: Customize (Optional) -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <div class="flex items-start space-x-4 mb-6">
+                <div class="step-number">7</div>
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Customize Your URL (Optional)</h2>
+                    <p class="text-gray-600">Change the random name to something more meaningful</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 ml-16">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-gray-800 mb-3">Change Your Site Name:</h4>
+                    
+                    <ol class="space-y-3 list-decimal list-inside text-gray-700">
+                        <li>
+                            <span class="font-semibold">Go to Site Settings</span>
+                            <p class="text-sm text-gray-600 ml-6">Click "Site settings" button on your site page</p>
+                        </li>
+                        <li>
+                            <span class="font-semibold">Find "Site information"</span>
+                            <p class="text-sm text-gray-600 ml-6">Look for "Site information" section at the top</p>
+                        </li>
+                        <li>
+                            <span class="font-semibold">Click "Change site name"</span>
+                            <p class="text-sm text-gray-600 ml-6">Under "Site name", click the "Change site name" button</p>
+                        </li>
+                        <li>
+                            <span class="font-semibold">Enter New Name</span>
+                            <p class="text-sm text-gray-600 ml-6">Type your preferred name (e.g., "mycompany-warehouse")</p>
+                        </li>
+                        <li>
+                            <span class="font-semibold">Save Changes</span>
+                            <p class="text-sm text-gray-600 ml-6">Click "Save" button</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h5 class="font-semibold text-blue-900 mb-2">Name Examples:</h5>
+                    <ul class="text-sm text-blue-800 space-y-1 ml-4">
+                        <li>• <code class="bg-white px-2 py-1 rounded">mycompany-warehouse.netlify.app</code></li>
+                        <li>• <code class="bg-white px-2 py-1 rounded">warehouse-management.netlify.app</code></li>
+                        <li>• <code class="bg-white px-2 py-1 rounded">stock-system.netlify.app</code></li>
+                    </ul>
+                </div>
+
+                <div class="tip-box p-4 rounded-lg">
+                    <p class="text-sm text-gray-700">
+                        <i class="fas fa-lightbulb text-yellow-600 mr-2"></i>
+                        <strong>Tip:</strong> Choose a name that's easy to remember and professional. Your team will use this URL daily.
+                    </p>
+                </div>
+
+                <div class="warning-box p-4 rounded-lg">
+                    <p class="text-sm text-gray-700">
+                        <i class="fas fa-info-circle text-red-600 mr-2"></i>
+                        <strong>Note:</strong> The name must be unique across all of Netlify. If it's taken, try adding numbers or your company name.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testing Checklist -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-clipboard-check text-indigo-600 mr-3"></i>Testing Checklist
+            </h2>
+            
+            <div class="space-y-3">
+                <p class="text-gray-700 mb-4">After deployment, verify everything works correctly:</p>
+                
+                <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded">
+                    <span class="text-gray-700">Site URL opens in browser</span>
+                </label>
+                
+                <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded">
+                    <span class="text-gray-700">Login page displays correctly</span>
+                </label>
+                
+                <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded">
+                    <span class="text-gray-700">Can login with admin / admin123</span>
+                </label>
+                
+                <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded">
+                    <span class="text-gray-700">Dashboard loads without errors</span>
+                </label>
+                
+                <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded">
+                    <span class="text-gray-700">Can navigate between pages</span>
+                </label>
+                
+                <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded">
+                    <span class="text-gray-700">Tested on mobile device</span>
+                </label>
+                
+                <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded">
+                    <span class="text-gray-700">All features work (submit request, approve, etc.)</span>
+                </label>
+                
+                <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded">
+                    <span class="text-gray-700">Shared URL with team members</span>
+                </label>
+                
+                <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded">
+                    <span class="text-gray-700">Team members can access successfully</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-wrench text-indigo-600 mr-3"></i>Troubleshooting Common Issues
+            </h2>
+            
+            <div class="space-y-4">
+                <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded">
+                    <h4 class="font-bold text-red-900 mb-2">❌ Problem: "Page not found" or 404 error</h4>
+                    <p class="text-sm text-gray-700 mb-2"><strong>Solution:</strong></p>
+                    <ul class="text-sm text-gray-700 ml-4 list-disc space-y-1">
+                        <li>Make sure you uploaded the FOLDER, not just files</li>
+                        <li>Verify index.html is in the root (not in a subfolder)</li>
+                        <li>Wait 2-3 minutes for deployment to fully complete</li>
+                        <li>Try accessing: yoursite.netlify.app/index.html</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4 rounded">
+                    <h4 class="font-bold text-yellow-900 mb-2">⚠️ Problem: Login doesn't work</h4>
+                    <p class="text-sm text-gray-700 mb-2"><strong>Solution:</strong></p>
+                    <ul class="text-sm text-gray-700 ml-4 list-disc space-y-1">
+                        <li>Verify js/auth.js file was uploaded</li>
+                        <li>Check browser console for errors (press F12)</li>
+                        <li>Make sure you're using the updated auth.js with demo users</li>
+                        <li>Try clearing browser cache</li>
+                        <li>Test in incognito/private browsing mode</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-blue-500 bg-blue-50 p-4 rounded">
+                    <h4 class="font-bold text-blue-900 mb-2">ℹ️ Problem: Upload failed or stuck</h4>
+                    <p class="text-sm text-gray-700 mb-2"><strong>Solution:</strong></p>
+                    <ul class="text-sm text-gray-700 ml-4 list-disc space-y-1">
+                        <li>Check your internet connection</li>
+                        <li>Try refreshing the Netlify page</li>
+                        <li>Make sure folder size is reasonable (should be under 10MB)</li>
+                        <li>Try using "browse to upload" instead of drag & drop</li>
+                        <li>Close other browser tabs to free up memory</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-purple-500 bg-purple-50 p-4 rounded">
+                    <h4 class="font-bold text-purple-900 mb-2">🔧 Problem: CSS/styling not working</h4>
+                    <p class="text-sm text-gray-700 mb-2"><strong>Solution:</strong></p>
+                    <ul class="text-sm text-gray-700 ml-4 list-disc space-y-1">
+                        <li>Styles are loaded from CDN (internet required)</li>
+                        <li>Check if Tailwind CSS CDN is accessible</li>
+                        <li>Clear browser cache and reload</li>
+                        <li>Check browser console for CDN loading errors</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Managing Your Site -->
+        <div class="guide-card rounded-2xl p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-cog text-indigo-600 mr-3"></i>Managing Your Deployed Site
+            </h2>
+            
+            <div class="space-y-4">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-gray-800 mb-3">Common Tasks:</h4>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h5 class="font-semibold text-gray-800 mb-2">
+                                <i class="fas fa-sync text-blue-600 mr-2"></i>Update Your Site
+                            </h5>
+                            <ol class="text-sm text-gray-700 ml-6 space-y-1 list-decimal">
+                                <li>Log in to Netlify</li>
+                                <li>Go to your site</li>
+                                <li>Click "Deploys" tab</li>
+                                <li>Drag and drop your updated folder</li>
+                                <li>New version goes live in seconds!</li>
+                            </ol>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-gray-800 mb-2">
+                                <i class="fas fa-trash text-red-600 mr-2"></i>Delete Your Site
+                            </h5>
+                            <ol class="text-sm text-gray-700 ml-6 space-y-1 list-decimal">
+                                <li>Go to Site Settings</li>
+                                <li>Scroll to bottom</li>
+                                <li>Click "Delete this site"</li>
+                                <li>Confirm deletion</li>
+                            </ol>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-gray-800 mb-2">
+                                <i class="fas fa-globe text-green-600 mr-2"></i>Add Custom Domain
+                            </h5>
+                            <ol class="text-sm text-gray-700 ml-6 space-y-1 list-decimal">
+                                <li>Go to Site Settings → Domain management</li>
+                                <li>Click "Add custom domain"</li>
+                                <li>Enter your domain name</li>
+                                <li>Follow DNS configuration instructions</li>
+                                <li>(Custom domains are free on Netlify!)</li>
+                            </ol>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-gray-800 mb-2">
+                                <i class="fas fa-chart-line text-purple-600 mr-2"></i>View Site Analytics
+                            </h5>
+                            <ol class="text-sm text-gray-700 ml-6 space-y-1 list-decimal">
+                                <li>Go to your site page</li>
+                                <li>Click "Analytics" tab</li>
+                                <li>View visitor stats, bandwidth usage, etc.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Banner -->
+        <div class="guide-card rounded-2xl p-8 mb-8 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300">
+            <div class="text-center">
+                <div class="inline-block p-4 bg-green-500 rounded-full mb-4">
+                    <i class="fas fa-check-circle text-white text-5xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">🎉 Congratulations!</h2>
+                <p class="text-xl text-gray-700 mb-6">Your Warehouse Management System is now live on the internet!</p>
+                
+                <div class="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-6">
+                    <div class="bg-white rounded-lg p-4">
+                        <div class="text-3xl font-bold text-green-600 mb-1">✅</div>
+                        <div class="text-sm font-semibold text-gray-800">Deployed Successfully</div>
+                    </div>
+                    <div class="bg-white rounded-lg p-4">
+                        <div class="text-3xl font-bold text-blue-600 mb-1">$0</div>
+                        <div class="text-sm font-semibold text-gray-800">Total Cost</div>
+                    </div>
+                    <div class="bg-white rounded-lg p-4">
+                        <div class="text-3xl font-bold text-purple-600 mb-1">∞</div>
+                        <div class="text-sm font-semibold text-gray-800">Unlimited Users</div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 max-w-2xl mx-auto">
+                    <h3 class="font-bold text-gray-800 mb-3">What's Next?</h3>
+                    <div class="text-left space-y-2">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check text-green-600"></i>
+                            <span class="text-gray-700">Share your URL with your team</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check text-green-600"></i>
+                            <span class="text-gray-700">Provide demo login credentials</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check text-green-600"></i>
+                            <span class="text-gray-700">Test all features thoroughly</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check text-green-600"></i>
+                            <span class="text-gray-700">Start managing your warehouse!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="text-center space-y-4">
+            <a href="documentation.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Documentation
+            </a>
+            <br>
+            <a href="index.html" class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200">
+                <i class="fas fa-sign-in-alt mr-2"></i>Go to Login Page
+            </a>
+        </div>
+    </div>
+</body>
+</html>

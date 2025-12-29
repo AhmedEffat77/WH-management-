@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Manager - Warehouse System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-warehouse text-indigo-600 text-2xl"></i>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Warehouse Manager Dashboard</h1>
+                        <p class="text-sm text-gray-600" id="userName"></p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Tabs -->
+        <div class="bg-white rounded-lg shadow-md mb-8">
+            <div class="border-b border-gray-200">
+                <nav class="flex -mb-px">
+                    <button onclick="switchTab('requests')" id="tab-requests"
+                        class="tab-btn py-4 px-6 border-b-2 border-indigo-500 text-indigo-600 font-semibold">
+                        <i class="fas fa-clipboard-check mr-2"></i>Pending Requests
+                    </button>
+                    <button onclick="switchTab('stock')" id="tab-stock"
+                        class="tab-btn py-4 px-6 border-b-2 border-transparent text-gray-600 hover:text-gray-800 font-semibold">
+                        <i class="fas fa-boxes mr-2"></i>Stock Management
+                    </button>
+                    <button onclick="switchTab('history')" id="tab-history"
+                        class="tab-btn py-4 px-6 border-b-2 border-transparent text-gray-600 hover:text-gray-800 font-semibold">
+                        <i class="fas fa-history mr-2"></i>Request History
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Pending Requests Tab -->
+        <div id="content-requests" class="tab-content">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-clock text-yellow-600 mr-2"></i>
+                        Pending Approval (<span id="pendingCount">0</span>)
+                    </h2>
+                    <button onclick="refreshData()" class="text-indigo-600 hover:text-indigo-700">
+                        <i class="fas fa-sync-alt mr-2"></i>Refresh
+                    </button>
+                </div>
+                
+                <div id="pendingRequestsContainer" class="space-y-4">
+                    <div class="text-center py-8">
+                        <i class="fas fa-spinner fa-spin text-2xl text-gray-400"></i>
+                        <p class="text-gray-500 mt-2">Loading requests...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Management Tab -->
+        <div id="content-stock" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-upload text-indigo-600 mr-2"></i>
+                    Upload Stock Data
+                </h2>
+                
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                    <input type="file" id="csvFile" accept=".csv" class="hidden" onchange="handleFileUpload(event)">
+                    <label for="csvFile" class="cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-5xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-700 font-semibold mb-2">Click to upload CSV file</p>
+                        <p class="text-sm text-gray-500">or drag and drop your Parts.csv file here</p>
+                    </label>
+                </div>
+                
+                <div id="uploadProgress" class="mt-4 hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">Processing...</span>
+                        <span class="text-sm font-semibold text-indigo-600" id="progressText">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="progressBar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-boxes text-indigo-600 mr-2"></i>
+                        Current Stock (<span id="stockCount">0</span> items)
+                    </h2>
+                    <div class="flex gap-2">
+                        <input type="text" id="stockSearch" placeholder="Search stock..."
+                            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        <button onclick="exportStock()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                            <i class="fas fa-download mr-2"></i>Export
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Reference</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Model</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Available</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Last Usage</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Coverage</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockTableBody" class="divide-y divide-gray-200">
+                            <tr>
+                                <td colspan="7" class="px-4 py-8 text-center text-gray-500">
+                                    <i class="fas fa-inbox text-4xl mb-2"></i>
+                                    <p>No stock data. Upload CSV to get started.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Request History Tab -->
+        <div id="content-history" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-history text-indigo-600 mr-2"></i>
+                        All Requests History
+                    </h2>
+                    <select id="historyFilter" class="px-4 py-2 border border-gray-300 rounded-lg" onchange="filterHistory()">
+                        <option value="all">All Status</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Requester</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Department</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Item</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Manager</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody" class="divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/warehouse-dashboard.js"></script>
+</body>
+</html>
